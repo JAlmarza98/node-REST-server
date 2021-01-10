@@ -1,6 +1,7 @@
 const express = require('express');
 const { model } = require('mongoose');
 const bcript = require('bcrypt');
+const _ = require('underscore');
 
 const app = express();
 const Usuario = require('../models/usuario');
@@ -38,9 +39,23 @@ app.post('/usuario', function (req, res) {
 app.put('/usuario/:id', function (req, res) {
 
     let id = req.params.id;
-    res.json({
-        id
-    });
+    let body = _.pick(req.body, ['nombre','email','img','role','status'] );
+
+    Usuario.findOneAndUpdate(id, body,{ new: true, runValidators:true }, (err, usuarioDB) =>{
+
+        if(err){
+             return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        })
+        
+    })
 });
 
 app.delete('/usuario', function (req, res) {
