@@ -14,6 +14,18 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 
 // ==========================================
+// Fecha de expiración del Token
+// ==========================================
+
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+// ==========================================
+// SEED de autentocación
+// ========================================== 
+
+process.env.SEED = process.env.SEED || 'secret'
+
+// ==========================================
 // Configuracion dinamica de la Base de Datos
 // ==========================================
 
