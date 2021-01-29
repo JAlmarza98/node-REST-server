@@ -98,7 +98,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role],(req, res) => {
 
 app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     
-    let id = req.params.id;
+    let id = req.params.id; 
 
     // ==================================================== 
     // ======= Borrado fisico de usuario de la BBDD =======
