@@ -10,7 +10,9 @@ const Usuario = require('../models/usuario');
 
 const app = express();
 
-
+//==============================
+// Login normal
+//==============================
 app.post('/login', (req, res) => {
 
     let body = req.body;
@@ -72,7 +74,9 @@ async function verify( token ) {
     }
 }
 
-
+//==============================
+// Login Google Sing-In
+//==============================
 app.post('/google', async (req, res) => {
 
     let token = req.body.idtoken;

@@ -5,19 +5,16 @@ const express = require('express');
 const bcript = require('bcrypt');
 const _ = require('underscore');
 
-const { verificaToken, verificaAdmin_Role } = require('../middlewares/auth')
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/auth');
 const Usuario = require('../models/usuario');
 
 const app = express();
 
 
+//==============================
+// Mostrar todos los usuarios
+//==============================
 app.get('/usuario', verificaToken, (req, res) => {
-
-    // return res.json({
-    //     usuario: req.usuario,
-    //     nombre: req.usuario.nombre,
-    //     email:req.usuario.email
-    // });
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -43,12 +40,15 @@ app.get('/usuario', verificaToken, (req, res) => {
                         usuarios,
                         total_users: conteo
                     });
-
                 });
-            })
+            });
 });
  
+//==============================
+// Crear un nuevo usuario
+//==============================
 app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
+    
     let body = req.body;
 
     let usuario = new Usuario({
@@ -69,15 +69,18 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
         res.json({
             ok: true,
             usuario: usuarioDB
-        })
-    })
-        
+        });
+    }); 
 });
 
+
+//===============================
+// Modificar un usuario existente
+//===============================
 app.put('/usuario/:id', [verificaToken, verificaAdmin_Role],(req, res) => {
 
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre','email','img','role','status'] );
+    let body = _.pick(req.body, ['nombre','email','img','role','status']);
 
     Usuario.findOneAndUpdate(id, body,{ new: true, runValidators:true }, (err, usuarioDB) =>{
 
@@ -91,11 +94,13 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role],(req, res) => {
         res.json({
             ok: true,
             usuario: usuarioDB
-        })
-        
-    })
+        });
+    });
 });
 
+//==============================
+// Eliminar un usuario
+//==============================
 app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     
     let id = req.params.id; 
